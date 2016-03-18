@@ -1,3 +1,18 @@
+Implemented
+===========
+
+Currently implemented :
+* Special Functions
+* Random Number Generation
+* Random Number Distributions
+
+Known Issues
+============
+
+GSL is a big package, and there are likely issues lurking 
+in the large parts of the code that aren't tested. Please 
+file issues for any problems that arise.
+
 Versions
 ========
 
