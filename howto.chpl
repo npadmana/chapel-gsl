@@ -23,6 +23,7 @@ use GSL;
 {
   use GSL.Random;
   // Random number generators
+  // Note that this follows the C-API --- so you need to explicitly free things.
   var rng1 = gsl_rng_alloc(gsl_rng_mt19937);
   var rng2 = gsl_rng_alloc(gsl_rng_taus2);
   writeln("Random numbers from a few random number generators");
