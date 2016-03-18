@@ -31,6 +31,26 @@ use GSL;
   for ii in 1..10 {
     writeln(gsl_rng_uniform(rng1), ' ',gsl_rng_get(rng2));
   }
+  
+  // Try out some random number distributions
+  var arr : [0.. #1000]real(64);
+  // GSL random number routines may share state. Use a serial loop
+  for x in arr do x = gsl_ran_gaussian(rng1, 1.0);
+  writeln("<x> of a sample of Gaussian random numbers :",(+ reduce arr)/1000.0);
+  writeln("<x^2> of a sample of Gaussian random numbers :",(+ reduce arr**2)/1000.0);
+  writeln("<x^3> of a sample of Gaussian random numbers :",(+ reduce arr**3)/1000.0);
+  writeln("<x^4> of a sample of Gaussian random numbers :",(+ reduce arr**4)/1000.0);
+
+  // Try the CDF
+  writeln("68.3\% of a Gaussian distribution occurs < ",gsl_cdf_gaussian_Pinv(0.683,1.0));
+  writeln("Expected : 0.476104 (Mathematica)");
+
+  // Try some Poisson numbers
+  writeln("Some Poisson numbers with mean 2...");
+  for ii in 1..50 do writef("%s ",gsl_ran_poisson(rng1,2));
+  writeln();
+
+
   gsl_rng_free(rng1);
   gsl_rng_free(rng2);
 }

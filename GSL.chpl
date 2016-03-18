@@ -6,7 +6,14 @@ module GSL {
 
   module Random {
     extern {
-       #include "chpl_gsl/gsl_rng.h"
+      #include "chpl_gsl/gsl_rng.h"
+      #include "chpl_gsl/gsl_randist.h"
+      #include "gsl/gsl_cdf.h"
+    }
+  }
+
+  module RanDist {
+    extern {
     }
   }
 
