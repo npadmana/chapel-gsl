@@ -27,7 +27,9 @@ original file is also saved, to enable comparisons.
 
 * gsl_rng.h : 
   The gsl_rng_type and gsl_rng structs were running into issues
-  while being 
+  while being parsed. Made them simple opaque structures, from the 
+  Chapel perspective. 
+
   This used a typedef struct which wasn't correctly
   parsed. Splitting it into a struct and a typedef solved this issue.
 

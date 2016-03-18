@@ -7,6 +7,7 @@ use GSL;
   use GSL.SpecFun;
   var res : gsl_sf_result;
   writeln(gsl_sf_erf(0.1));
+  // Note how the res structure is available to the user
   var ret = gsl_sf_erf_e(0.1, c_ptrTo(res));
   writeln(res);
   writeln(toString(gsl_strerror(ret)));
