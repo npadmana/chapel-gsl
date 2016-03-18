@@ -54,3 +54,25 @@ use GSL;
   gsl_rng_free(rng1);
   gsl_rng_free(rng2);
 }
+
+{
+  // 1D interpolation
+  use GSL.Interp1D;
+
+  // Set up a simple function
+  var x : [0.. #10] real(64);
+  [i in x.domain] x[i]=i*0.1;
+  var y : [0.. #10] real(64) = x**3 + 2*x;
+  writeln('x:',x);
+  writeln('y:',y);
+
+  // Use the 1D higher level interface for this
+  var sp = gsl_spline_alloc(gsl_interp_cspline, 10);
+  var acc = gsl_interp_accel_alloc();
+  gsl_spline_init(sp, c_ptrTo(x[0]), c_ptrTo(y[0]), 10);
+  writeln('x^3 + 2x for x=0.45 :',gsl_spline_eval(sp, 0.45, acc));
+  writeln('Compared to :',0.45**3+0.9);
+  gsl_interp_accel_free(acc);
+  gsl_spline_free(sp);
+}
+

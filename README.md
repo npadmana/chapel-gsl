@@ -5,6 +5,8 @@ Currently implemented :
 * Special Functions
 * Random Number Generation
 * Random Number Distributions
+* 1D interpolation
+
 
 Known Issues
 ============

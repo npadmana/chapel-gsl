@@ -4,6 +4,8 @@ module GSL {
   use SysCTypes;
   require '-lgsl','-lgslcblas';
 
+  // Random number generation
+  // Random distributions
   module Random {
     extern {
       #include "chpl_gsl/gsl_rng.h"
@@ -12,14 +14,18 @@ module GSL {
     }
   }
 
-  module RanDist {
-    extern {
-    }
-  }
-
+  // Special Functions
   module SpecFun {
     extern {  
       #include "gsl/gsl_sf.h"
+    }
+  }
+  
+  // 1D Interpolation
+  module Interp1D {
+    extern {
+      #include "chpl_gsl/gsl_interp.h"
+      #include "chpl_gsl/gsl_spline.h"
     }
   }
 
