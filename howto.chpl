@@ -10,15 +10,15 @@ use GSL;
   // Note how the res structure is available to the user
   var ret = gsl_sf_erf_e(0.1, c_ptrTo(res));
   writeln(res);
-  writeln(toString(gsl_strerror(ret)));
+  writeln(new string(gsl_strerror(ret)));
 
 
   // Use GSL precision modes. These are #defines and the extern block code
   // gets the types wrong, so we need to explicitly case.
   ret = gsl_sf_airy_Ai_e(10.0, GSL_PREC_DOUBLE : c_uint, c_ptrTo(res));
-  writeln(toString(gsl_strerror(ret)), res);
+  writeln(new string(gsl_strerror(ret)), res);
   ret = gsl_sf_airy_Ai_e(10.0, GSL_PREC_APPROX : c_uint,c_ptrTo(res));
-  writeln(toString(gsl_strerror(ret)), res);
+  writeln(new string(gsl_strerror(ret)), res);
 }
 
 {
@@ -42,7 +42,7 @@ use GSL;
   writeln("<x^4> of a sample of Gaussian random numbers :",(+ reduce arr**4)/1000.0);
 
   // Try the CDF
-  writeln("68.3\% of a Gaussian distribution occurs < ",gsl_cdf_gaussian_Pinv(0.683,1.0));
+  writeln("68.3% of a Gaussian distribution occurs < ",gsl_cdf_gaussian_Pinv(0.683,1.0));
   writeln("Expected : 0.476104 (Mathematica)");
 
   // Try some Poisson numbers
@@ -89,17 +89,14 @@ use GSL;
   record Payload {
     var alpha : real;
   }
-  export proc func(x : real,  ref p) : real {
-    return log(p.alpha*x)/sqrt(x);
+  export proc func(x : real, p : c_void_ptr) : real {
+    var r = (p : c_ptr(Payload)).deref();
+    return log(r.alpha*x)/sqrt(x);
   }
   extern {
     #include <chpl_gsl/gsl_integration.h>
 
     double func(double,void*);
-    /*static double wrapfunc(double x, void* params) {
-      return func(x, params);
-    }*/
-
     void call_qags(void* params, double a, double b, double epsabs, double epsrel, size_t limit, 
         gsl_integration_workspace* wk, double *result, double *err) 
     {
