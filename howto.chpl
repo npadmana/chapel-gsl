@@ -76,3 +76,48 @@ use GSL;
   gsl_spline_free(sp);
 }
 
+{
+  // Integration
+  use GSL.Integration;
+  // The following is the example in the GSL manual translated.
+  // We do the following integral :
+  //    \int_0^1 x^{-1/2} log(x) dx = -4
+  // 
+  // Note that, for this particular problem, it might have been
+  // simpler to just wrap everything in C. Also note that we need to 
+  // write some boilerplate to actually pass things to C.
+  record Payload {
+    var alpha : real;
+  }
+  export proc func(x : real,  ref p) : real {
+    return log(p.alpha*x)/sqrt(x);
+  }
+  extern {
+    #include <chpl_gsl/gsl_integration.h>
+
+    double func(double,void*);
+    /*static double wrapfunc(double x, void* params) {
+      return func(x, params);
+    }*/
+
+    void call_qags(void* params, double a, double b, double epsabs, double epsrel, size_t limit, 
+        gsl_integration_workspace* wk, double *result, double *err) 
+    {
+      gsl_function F;
+      F.function = &func;
+      F.params = params;
+      gsl_integration_qags(&F, a,b,epsabs,epsrel,limit,wk,result,err);
+    }
+  }
+  var wk = gsl_integration_workspace_alloc(1000);
+  var result, error: real(64);
+  var p = new Payload(1.0);
+  call_qags(c_ptrTo(p):c_void_ptr, 0, 1, 0, 1.e-07,1000,wk,c_ptrTo(result), c_ptrTo(error));
+  const expected = -4.0;
+  writeln("Integration result : ",result);
+  writeln("Expected : ", expected);
+  writeln("Estimated error : ",error);
+  writeln("Actual error : ",abs(result-expected));
+  gsl_integration_workspace_free(wk);
+}
+
