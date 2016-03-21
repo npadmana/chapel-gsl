@@ -7,6 +7,7 @@ Currently implemented :
 * Random Number Distributions
 * 1D interpolation
 * Integration
+* Constants
 
 
 Known Issues

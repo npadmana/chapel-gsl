@@ -118,3 +118,8 @@ use GSL;
   gsl_integration_workspace_free(wk);
 }
 
+{
+  // Constants 
+  use GSL.Constants;
+  writef("The speed of light in m/s is %r\n",GSL_CONST_MKS_SPEED_OF_LIGHT);
+}

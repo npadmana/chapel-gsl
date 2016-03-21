@@ -36,4 +36,11 @@ module GSL {
     }
   }
 
+  // Constants
+  module Constants {
+    extern {
+      #include "gsl/gsl_const.h"
+    }
+  }
+
 }
