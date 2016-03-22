@@ -1,11 +1,11 @@
 /* A Chapel-esque wrapper for the GSL interpolation and spline routines.
 
-The C routines are fully exposed, but hidden inside a "_C_Spline" nested module. 
+The C routines are fully exposed, but hidden inside a "C" nested module. 
  */
 
 module Interp1D {
 
-  use _C_Spline;
+  use C;
 
   /* Types of splines exposed */
   enum SplineType {
@@ -95,7 +95,7 @@ module Interp1D {
   }
 
 
-  module _C_Spline {
+  module C {
     extern {
       #include "chpl_gsl/gsl_interp.h"
       #include "chpl_gsl/gsl_spline.h"

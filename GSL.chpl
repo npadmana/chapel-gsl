@@ -21,14 +21,6 @@ module GSL {
     }
   }
   
-  // 1D Interpolation
-  module Interp1D {
-    extern {
-      #include "chpl_gsl/gsl_interp.h"
-      #include "chpl_gsl/gsl_spline.h"
-    }
-  }
-
   // Integration
   module Integration {
     extern {

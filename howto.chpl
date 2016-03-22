@@ -57,7 +57,7 @@ use GSL;
 
 {
   // 1D interpolation
-  use GSL.Interp1D;
+  use Interp1D.C;
 
   // Set up a simple function
   var x : [0.. #10] real(64);
@@ -75,6 +75,20 @@ use GSL;
   gsl_interp_accel_free(acc);
   gsl_spline_free(sp);
 }
+
+{
+  // 1D Interpolation, use the Chapel interface
+  use Interp1D;
+  // Set up a simple function
+  var x : [0.. #10] real(64);
+  [i in x.domain] x[i]=i*0.1;
+  var y : [0.. #10] real(64) = x**3 + 2*x;
+  var sp = new Spline(x,y,SplineType.CUBIC);
+  writeln('x^3 + 2x for x=0.45 (Chapel version) :',sp.eval(0.45));
+  delete sp;
+}
+
+
 
 {
   // Integration
