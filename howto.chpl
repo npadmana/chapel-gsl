@@ -22,37 +22,39 @@ use GSL;
 }
 
 {
-  use GSL.Random;
+  use RandomGSL;
   // Random number generators
-  // Note that this follows the C-API --- so you need to explicitly free things.
-  var rng1 = gsl_rng_alloc(gsl_rng_mt19937);
-  var rng2 = gsl_rng_alloc(gsl_rng_taus2);
+  var rng1 = new Random(RNGType.MT19937);
+  var rng2 = new Random(RNGType.Taus2);
   writeln("Random numbers from a few random number generators");
   for ii in 1..10 {
-    writeln(gsl_rng_uniform(rng1), ' ',gsl_rng_get(rng2));
+    writeln(rng1.uniform(),' ',rng2.get());
   }
   
   // Try out some random number distributions
+  var gauss = new Gaussian(1.0, rng1);
   var arr : [0.. #1000]real(64);
   // GSL random number routines may share state. Use a serial loop
-  for x in arr do x = gsl_ran_gaussian(rng1, 1.0);
+  for x in arr do x = gauss.get();
   writeln("<x> of a sample of Gaussian random numbers :",(+ reduce arr)/1000.0);
   writeln("<x^2> of a sample of Gaussian random numbers :",(+ reduce arr**2)/1000.0);
   writeln("<x^3> of a sample of Gaussian random numbers :",(+ reduce arr**3)/1000.0);
   writeln("<x^4> of a sample of Gaussian random numbers :",(+ reduce arr**4)/1000.0);
 
   // Try the CDF
-  writeln("68.3% of a Gaussian distribution occurs < ",gsl_cdf_gaussian_Pinv(0.683,1.0));
+  writeln("68.3% of a Gaussian distribution occurs < ",gauss.CDF(CDFType.Pinv,0.683));
   writeln("Expected : 0.476104 (Mathematica)");
 
   // Try some Poisson numbers
+  var pois = new Poisson(2, gauss.rng); 
   writeln("Some Poisson numbers with mean 2...");
-  for ii in 1..50 do writef("%s ",gsl_ran_poisson(rng1,2));
+  for ii in 1..50 do writef("%s ",pois.get());
   writeln();
 
-
-  gsl_rng_free(rng1);
-  gsl_rng_free(rng2);
+  delete rng1; 
+  delete rng2;
+  delete pois;
+  delete gauss;
 }
 
 {

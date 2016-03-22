@@ -4,16 +4,6 @@ module GSL {
   use SysCTypes;
   require '-lgsl','-lgslcblas';
 
-  // Random number generation
-  // Random distributions
-  module Random {
-    extern {
-      #include "chpl_gsl/gsl_rng.h"
-      #include "chpl_gsl/gsl_randist.h"
-      #include "gsl/gsl_cdf.h"
-    }
-  }
-
   // Special Functions
   module SpecFun {
     extern {  
