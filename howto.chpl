@@ -4,7 +4,7 @@ use GSL;
   // Special functions 
   // We try out both interfaces. Note that you need to explicitly
   // use the c_ptrTo function in these cases.
-  use GSL.SpecFun;
+  use SpecFun;
   var res : gsl_sf_result;
   writeln(gsl_sf_erf(0.1));
   // Note how the res structure is available to the user
@@ -94,7 +94,7 @@ use GSL;
 
 {
   // Integration
-  use GSL.Integration;
+  use Integration;
   // The following is the example in the GSL manual translated.
   // We do the following integral :
   //    \int_0^1 x^{-1/2} log(x) dx = -4
@@ -136,6 +136,6 @@ use GSL;
 
 {
   // Constants 
-  use GSL.Constants;
+  use Constants;
   writef("The speed of light in m/s is %r\n",GSL_CONST_MKS_SPEED_OF_LIGHT);
 }
